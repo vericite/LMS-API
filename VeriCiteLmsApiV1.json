@@ -11,7 +11,7 @@
                 "tags": [
                   "reports"
                 ],
-                "operationId": "requestUploadReport",
+                "operationId": "submitRequest",
                 "description": "Request a file submission",
                 "parameters": [
                     {

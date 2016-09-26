@@ -22,7 +22,7 @@ An example of this code in use can be found in our Canvas integration: [vericite
   * **NodeJS/Javascript**  
 We recommend using [Swagger JS library](https://github.com/swagger-api/swagger-js). This is a dynamic library which takes the [VeriCiteLmsApiV1.json](https://github.com/vericite/LMS-API/blob/master/VeriCiteLmsApiV1.json) swagger json definition that we provide.  
 Ex.:
-`
+```javascript
 import Swagger from 'swagger-client';
 this.client = new Swagger({
   url: 'https://github.com/vericite/LMS-API/blob/master/VeriCiteLmsApiV1.json',
@@ -35,8 +35,7 @@ this.client = new Swagger({
     console.error("Client failed");
   }
 });
-
-`
+```
 
   * **Java**  
 We will be adding our API to a maven repository. An example of this code in use can be found in our Sakai integration: [Sakai Content Review](https://github.com/vericite/contentreview-impl-vericite)
@@ -45,3 +44,129 @@ We will be adding our API to a maven repository. An example of this code in use 
 We will be adding our API to a php repository. An example of this code in use can be found in our Moodle integration: [Moodle VeriCite Plugin](https://github.com/vericite/moodle-plagiarism_vericite)
 
 For all other languages, please put in a request and we will respond. We have also provided a [Swagger](http://swagger.io/) definition for our LMS API: [VeriCiteLmsApiV1.json](https://github.com/vericite/LMS-API/blob/master/VeriCiteLmsApiV1.json).
+
+## Sample Integration Walkthrough
+
+You should follow along with our Java example project: [Sakai LMS Integration](https://github.com/vericite/contentreview-impl-vericite) or our PHP example project: [Moodle LMS Integration](https://github.com/vericite/moodle-plagiarism_vericite). We also suggest plugging in our [VeriCite LMS Swagger Definition](https://github.com/vericite/LMS-API/blob/master/VeriCiteLmsApiV1.json) into the [Swagger Editor](http://editor.swagger.io/#/) to see an interactive display of our API.
+
+### Step 1: Assignment is Created or Updated:
+
+Whenever an assignment is created or updated, pass this information over to VeriCite. This isn’t required, but just makes the integration nicer for the user. There is no harm to calling this function everytime a user makes a modification to the assignment. Remember to do this work in a non-user thread as to not block the user and to pass all parameters in encoded.
+
+#### assignments.createUpdateAssignment
+
+POST /assignments/{contextID}/{assignmentID}  
+Creates or updates an assignment
+
+*Authorization Headers:*
+  * consumer
+  * consumerSecret
+
+*Parameters:*
+  * contextID (from URL; this is the site id)
+  * assignmentID (from URL; this is the assignment id)
+  * assignmentData (body json parameter)
+  * assignmentData.assignmentTitle (if not set, assignmentId will be used)
+  * assignmentData.assignmentInstructions
+  * assignmentData.assignmentExcludeQuotes
+  * assignmentData.assignmentExcludeSelfPlag
+  * assignmentData.assignmentStoreInIndex
+  * assignmentData.assignmentDueDate
+  * assignmentData.assignmentGrade
+  * assignmentData.assignmentAttachmentExternalContent (a list of attachments for this assignment. Not required. For every attachment provided, VeriCite will return an upload URL to store the attachment. If you want to delete an attachment, include this parameter without the attachment externalContentID)
+  * assignmentData.assignmentAttachmentExternalContent.fileName (file name without extension)
+  * assignmentData.assignmentAttachmentExternalContent.uploadContentType (file extension, i.e. pdf, txt, rtf, etc.)
+  * assignmentData.assignmentAttachmentExternalContent.uploadContentLength (size of the file in bytes)
+  * assignmentData.assignmentAttachmentExternalContent.externalContentID (this is your UID for the attachment)
+
+
+*Java example:*  
+[ContentReviewServiceImpl.createAssignment](https://github.com/vericite/contentreview-impl-vericite/blob/88f084abda1a2f0aa573868c8f98b5924f235888/impl/src/java/org/sakaiproject/contentreview/impl/ContentReviewServiceImpl.java#L105)  
+*Php example:*  
+[lib.php save_form_elements()](https://github.com/vericite/moodle-plagiarism_vericite/blob/db75c8505ea4cc6b6db4e55ca4cc4b86271666d2/lib.php#L410)  
+
+### Step 2: Submit a paper
+
+When a user submits a paper, VeriCite will create or update any site, assignment or user connected to the paper. There is no need to create these objects in a different call. Your architecture should make this call in a queueing process. For example, when a user submits a paper, the paper should be put up on a queue. The queue reader would request the paper submission upload URL. The VeriCite response will include an upload URL for you to then upload the file submission to. Pass in as much data as possible for the user, assignment and context.
+
+### reports.submitRequest
+
+POST /reports/submit/request/{contextID}/{assignmentID}/{userID}  
+Request a file submission upload URL
+
+*Authorization Headers:*
+  * consumer
+  * consumerSecret
+
+*Parameters:*
+  * contextID (from URL; this is the site id)
+  * assignmentID (from URL; this is the assignment id)
+  * userID (from URL; this is the user id)
+  * reportMetaData (from body as json. Only required fields in this object externalContentData: A minimum of one request with externalContentID, fileName and uploadContentLength set. Please provide all parameters if possible)
+  * reportMetaData.userFirstName
+  * reportMetaData.userLastName
+  * reportMetaData.userEmail
+  * reportMetaData.userRole (must be “Instructor” or “Learner”; default to Learner)
+  * reportMetaData.contextTitle
+  * reportMetaData.assignmentTitle
+  * reportMetaData.externalContentData.externalContentId (this is your UID for the paper)
+  * reportMetaData.externalContentData.fileName (file name without extension)
+  * reportMetaData.externalContentData.uploadContentType (file extension, i.e. pdf, txt, rtf, etc.)
+  * reportMetaData.externalContentData.uploadContentLength (size of the file in bytes)
+
+*Java example:*  
+[ContentReviewServiceImpl.queue](https://github.com/vericite/contentreview-impl-vericite/blob/88f084abda1a2f0aa573868c8f98b5924f235888/impl/src/java/org/sakaiproject/contentreview/impl/ContentReviewServiceImpl.java#L578)  
+*Php example:*  
+[send_files.php plagiarism_vericite_send_files()](https://github.com/vericite/moodle-plagiarism_vericite/blob/master/classes/task/send_files.php#L20)  
+
+
+### Step 3: Get Report Scores
+
+Do this in bulk when possible. For Learners, you’ll probably request scores for one assignment and one user (e.g. the Learner) at a time and this is ok. However, for instructors, you’ll want to request scores for all users in an assignment. You can then cache/store these scores for 30 minutes. Do not store the scores for any longer of a period of time since VeriCite scores are dynamic and can change. *IMPORTANT*: If a score isn’t returned for a submission, then this means that VeriCite can’t find the submission. Simply re-queue the report for the missing attachment (described in Step 2). Remember to pass all parameters in encoded.
+
+#### reports.getScores
+
+GET /reports/scores/{contextID}  
+Retrieves scores for the reports  
+
+*Authorization Headers:*
+  * consumer
+  * consumerSecret
+
+*Parameters:*
+  * contextID (from URL; this is the site id)
+  * assignmentID (query; filter by assignment id)
+  * userID (query; filter by user id)
+  * externalContentID (query; find exact report by externalContentID)
+
+*Java example:*  
+[ContentReviewServiceImpl.getReviewScore](https://github.com/vericite/contentreview-impl-vericite/blob/88f084abda1a2f0aa573868c8f98b5924f235888/impl/src/java/org/sakaiproject/contentreview/impl/ContentReviewServiceImpl.java#L406)  
+*Php example:*  
+[lib.php plagiarism_vericite_get_scores()](https://github.com/vericite/moodle-plagiarism_vericite/blob/master/lib.php#L577)  
+
+
+### Step 4: Get access urls
+
+Access URLs are used to allow users to see a report. These are temporary URLs that will expire in 30 minutes. You can re-use them, so it is ok to cache them for 20 minutes. For Learners, you’ll probably request URLs for one assignment and one user (e.g. the Learner) at a time and this is ok. However, for instructors, you’ll more likely want to request URLs for all reports in an assignment in bulk and cache the results.
+
+#### reports.getReportUrls
+
+GET /reports/urls/{contextID}  
+Retrieves URLS for the reports
+
+*Authorization Headers:*
+  * consumer
+  * consumerSecret
+
+*Parameters:*
+  * contextID (from URL; this is the site id)
+  * assignmentIDFilter (query; filter by assignment id)
+  * userIDFilter (query; filter by user id)
+  * externalContentIDFilter (query; find exact report by externalContentID)
+  * tokenUser (ID of user who will view the report)
+  * tokenUserRole (role of user who will view the report)
+
+*Java example:*  
+[ContentReviewServiceImpl.getAccessUrl](https://github.com/vericite/contentreview-impl-vericite/blob/88f084abda1a2f0aa573868c8f98b5924f235888/impl/src/java/org/sakaiproject/contentreview/impl/ContentReviewServiceImpl.java#L303)  
+*Php example:*  
+[lib.php PLAGIARISM_VERICITE_ACTION_REPORTS_URLS](https://github.com/vericite/moodle-plagiarism_vericite/blob/master/lib.php)  
