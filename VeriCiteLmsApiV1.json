@@ -8,6 +8,10 @@
     "paths": {
         "/reports/submit/request/{contextID}/{assignmentID}/{userID}": {
             "post": {
+                "tags": [
+                  "reports"
+                ],
+                "operationId": "requestUploadReport",
                 "description": "Request a file submission",
                 "parameters": [
                     {
@@ -128,6 +132,10 @@
         },
         "/reports/scores/{contextID}": {
             "get": {
+                "tags": [
+                  "reports"
+                ],
+                "operationId": "getScores",
                 "description": "Retrieves scores for the reports",
                 "parameters": [
                     {
@@ -247,6 +255,10 @@
         },
         "/assignments/{contextID}/{assignmentID}": {
             "post": {
+                "tags": [
+                  "assignments"
+                ],
+                "operationId": "createUpdateAssignment",
                 "description": "Create/update assignment",
                 "parameters": [
                     {
@@ -360,6 +372,10 @@
         },
         "/reports/urls/{contextID}": {
             "get": {
+                "tags": [
+                  "reports"
+                ],
+                "operationId": "getReportUrls",
                 "description": "Retrieves URLS for the reports",
                 "parameters": [
                     {
