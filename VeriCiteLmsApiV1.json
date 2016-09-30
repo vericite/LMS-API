@@ -92,41 +92,6 @@
                             "$ref": "#/definitions/Error"
                         }
                     }
-                },
-                "x-amazon-apigateway-auth": {
-                    "type": "none"
-                },
-                "x-amazon-apigateway-integration": {
-                    "type": "aws",
-                    "uri": "arn:aws:apigateway:VC_AWS_REGION:lambda:path/2015-03-31/functions/arn:aws:lambda:VC_AWS_REGION:VC_AWS_ACCOUNT_ID:function:reportRequest:alias/invocations",
-                    "credentials": "arn:aws:iam::VC_AWS_ACCOUNT_ID:role/vericite_lambda_api_execution",
-                    "httpMethod": "POST",
-                    "responses": {
-                        "Error.Invalid.*": {
-                            "statusCode": "400",
-                            "responseTemplates": {
-                                "application/json": "{ \"message\" : \"$input.path('$.errorMessage')\"}"
-                            }
-                        },
-                        "Error.Unauthorized.*": {
-                            "statusCode": "401",
-                            "responseTemplates": {
-                                "application/json": "{ \"message\" : \"$input.path('$.errorMessage')\"}"
-                            }
-                        },
-                        "Error.Unhandled.*": {
-                            "statusCode": "500",
-                            "responseTemplates": {
-                                "application/json": "{ \"message\" : \"$input.path('$.errorMessage')\"}"
-                            }
-                        },
-                        "default": {
-                            "statusCode": "200"
-                        }
-                    },
-                    "requestTemplates": {
-                        "application/json": "{\"consumer\": \"$input.params('consumer')\",\"consumerSecret\": \"$input.params('consumerSecret')\",\"userID\": \"$input.params('userID')\",\"assignmentID\": \"$input.params('assignmentID')\",\"contextID\": \"$input.params('contextID')\",\"userFirstName\": $input.json('$.userFirstName'),\"userLastName\": $input.json('$.userLastName'),\"userEmail\": $input.json('$.userEmail'),\"userRole\": $input.json('$.userRole'),\"contextTitle\": $input.json('$.contextTitle'),\"assignmentTitle\": $input.json('$.assignmentTitle'),\"externalContentData\" : $input.json('$.externalContentData')}"
-                    }
                 }
             }
         },
@@ -215,41 +180,6 @@
                             "$ref": "#/definitions/Error"
                         }
                     }
-                },
-                "x-amazon-apigateway-auth": {
-                    "type": "none"
-                },
-                "x-amazon-apigateway-integration": {
-                    "type": "aws",
-                    "uri": "arn:aws:apigateway:VC_AWS_REGION:lambda:path/2015-03-31/functions/arn:aws:lambda:VC_AWS_REGION:VC_AWS_ACCOUNT_ID:function:getScores:alias/invocations",
-                    "credentials": "arn:aws:iam::VC_AWS_ACCOUNT_ID:role/vericite_lambda_api_execution",
-                    "httpMethod": "POST",
-                    "responses": {
-                        "Error.Invalid.*": {
-                            "statusCode": "400",
-                            "responseTemplates": {
-                                "application/json": "{ \"message\" : \"$input.path('$.errorMessage')\"}"
-                            }
-                        },
-                        "Error.Unauthorized.*": {
-                            "statusCode": "401",
-                            "responseTemplates": {
-                                "application/json": "{ \"message\" : \"$input.path('$.errorMessage')\"}"
-                            }
-                        },
-                        "Error.Unhandled.*": {
-                            "statusCode": "500",
-                            "responseTemplates": {
-                                "application/json": "{ \"message\" : \"$input.path('$.errorMessage')\"}"
-                            }
-                        },
-                        "default": {
-                            "statusCode": "200"
-                        }
-                    },
-                    "requestTemplates": {
-                        "application/json": "{\"consumer\" : \"$input.params('consumer')\", \"consumerSecret\" : \"$input.params('consumerSecret')\", \"externalContentID\" : \"$input.params('externalContentID')\", \"userID\" : \"$input.params('userID')\",\"assignmentID\" : \"$input.params('assignmentID')\", \"contextID\" : \"$input.params('contextID')\"}"
-                    }
                 }
             }
         },
@@ -331,41 +261,6 @@
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
-                    }
-                },
-                "x-amazon-apigateway-auth": {
-                    "type": "none"
-                },
-                "x-amazon-apigateway-integration": {
-                    "type": "aws",
-                    "uri": "arn:aws:apigateway:VC_AWS_REGION:lambda:path/2015-03-31/functions/arn:aws:lambda:VC_AWS_REGION:VC_AWS_ACCOUNT_ID:function:createUpdateAssignment:alias/invocations",
-                    "credentials": "arn:aws:iam::VC_AWS_ACCOUNT_ID:role/vericite_lambda_api_execution",
-                    "httpMethod": "POST",
-                    "responses": {
-                        "Error.Invalid.*": {
-                            "statusCode": "400",
-                            "responseTemplates": {
-                                "application/json": "{ \"message\" : \"$input.path('$.errorMessage')\"}"
-                            }
-                        },
-                        "Error.Unauthorized.*": {
-                            "statusCode": "401",
-                            "responseTemplates": {
-                                "application/json": "{ \"message\" : \"$input.path('$.errorMessage')\"}"
-                            }
-                        },
-                        "Error.Unhandled.*": {
-                            "statusCode": "500",
-                            "responseTemplates": {
-                                "application/json": "{ \"message\" : \"$input.path('$.errorMessage')\"}"
-                            }
-                        },
-                        "default": {
-                            "statusCode": "200"
-                        }
-                    },
-                    "requestTemplates": {
-                        "application/json": "{\"consumer\": \"$input.params('consumer')\",\"consumerSecret\": \"$input.params('consumerSecret')\",\"assignmentID\": \"$input.params('assignmentID')\",\"assignmentTitle\": $input.json('$.assignmentTitle'),\"assignmentInstructions\": $input.json('$.assignmentInstructions'),\"contextID\": \"$input.params('contextID')\",\"assignmentExcludeQuotes\": $input.json('$.assignmentExcludeQuotes'),\"assignmentExcludeSelfPlag\": $input.json('$.assignmentExcludeSelfPlag'),\"assignmentStoreInIndex\": $input.json('$.assignmentStoreInIndex'),\"assignmentAttachmentExternalContent\": $input.json('$.assignmentAttachmentExternalContent'), \"assignmentDueDate\": $input.json('$.assignmentDueDate'), \"assignmentGrade\": $input.json('$.assignmentGrade')}"
                     }
                 }
             }
@@ -468,41 +363,6 @@
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
-                    }
-                },
-                "x-amazon-apigateway-auth": {
-                    "type": "none"
-                },
-                "x-amazon-apigateway-integration": {
-                    "type": "aws",
-                    "uri": "arn:aws:apigateway:VC_AWS_REGION:lambda:path/2015-03-31/functions/arn:aws:lambda:VC_AWS_REGION:VC_AWS_ACCOUNT_ID:function:getUrls:alias/invocations",
-                    "credentials": "arn:aws:iam::VC_AWS_ACCOUNT_ID:role/vericite_lambda_api_execution",
-                    "httpMethod": "POST",
-                    "responses": {
-                        "Error.Invalid.*": {
-                            "statusCode": "400",
-                            "responseTemplates": {
-                                "application/json": "{ \"message\" : \"$input.path('$.errorMessage')\"}"
-                            }
-                        },
-                        "Error.Unauthorized.*": {
-                            "statusCode": "401",
-                            "responseTemplates": {
-                                "application/json": "{ \"message\" : \"$input.path('$.errorMessage')\"}"
-                            }
-                        },
-                        "Error.Unhandled.*": {
-                            "statusCode": "500",
-                            "responseTemplates": {
-                                "application/json": "{ \"message\" : \"$input.path('$.errorMessage')\"}"
-                            }
-                        },
-                        "default": {
-                            "statusCode": "200"
-                        }
-                    },
-                    "requestTemplates": {
-                        "application/json": "{\"consumer\" : \"$input.params('consumer')\", \"consumerSecret\" : \"$input.params('consumerSecret')\", \"externalContentIDFilter\" : \"$input.params('externalContentIDFilter')\", \"userIDFilter\" : \"$input.params('userIDFilter')\",\"assignmentIDFilter\" : \"$input.params('assignmentIDFilter')\", \"contextID\" : \"$input.params('contextID')\", \"tokenUser\" : \"$input.params('tokenUser')\", \"tokenUserRole\" : \"$input.params('tokenUserRole')\"}"
                     }
                 }
             }
