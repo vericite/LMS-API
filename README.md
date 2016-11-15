@@ -17,7 +17,7 @@ This document will walk through the Sakai LMS integration with VeriCite to expla
 
   * **Ruby**  
 [VeriCite LM Ruby API](https://rubygems.org/gems/vericite_api)
-An example of this code in use can be found in our Canvas integration: [vericite.rb](https://github.com/baholladay/canvas-lms/blob/vericite-master/lib/vericite.rb)
+An example of this code in use can be found in our Canvas integration: [vericite.rb](https://github.com/instructure/canvas-lms/blob/master/lib/vericite.rb)
 
   * **NodeJS/Javascript**  
 We recommend using [Swagger JS library](https://github.com/swagger-api/swagger-js). This is a dynamic library which takes the [VeriCiteLmsApiV1.json](https://github.com/vericite/LMS-API/blob/master/VeriCiteLmsApiV1.json) swagger json definition that we provide.  
@@ -42,6 +42,11 @@ We will be adding our API to a maven repository. An example of this code in use 
 
   * **Php**  
 We will be adding our API to a php repository. An example of this code in use can be found in our Moodle integration: [Moodle VeriCite Plugin](https://github.com/vericite/moodle-plagiarism_vericite)
+
+  * **Python**  
+[VeriCite LM Python API](https://github.com/vericite/vericite_api_python)
+An example of this code in use can be found in the README file in the project
+
 
 For all other languages, please put in a request and we will respond. We have also provided a [Swagger](http://swagger.io/) definition for our LMS API: [VeriCiteLmsApiV1.json](https://github.com/vericite/LMS-API/blob/master/VeriCiteLmsApiV1.json).
 
