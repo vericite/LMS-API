@@ -1,221 +1,227 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "version": "1.0.0",
-        "title": "VeriCiteLmsApiV1"
-    },
     "basePath": "/v1",
+    "definitions": {
+        "AssignmentData": {
+            "properties": {
+                "assignmentAttachmentExternalContent": {
+                    "items": {
+                        "$ref": "#/definitions/ExternalContentData"
+                    },
+                    "type": "array"
+                },
+                "assignmentDueDate": {
+                    "description": "Assignment due date. Pass in 0 to delete.",
+                    "type": "integer"
+                },
+                "assignmentExcludeQuotes": {
+                    "description": "exclude quotes",
+                    "type": "boolean"
+                },
+                "assignmentExcludeSelfPlag": {
+                    "description": "exclude self plagiarism",
+                    "type": "boolean"
+                },
+                "assignmentGrade": {
+                    "description": "Assignment grade. Pass in 0 to delete.",
+                    "type": "integer"
+                },
+                "assignmentInstructions": {
+                    "description": "Instructions for assignment",
+                    "type": "string"
+                },
+                "assignmentStoreInIndex": {
+                    "description": "store submissions in institutional index",
+                    "type": "boolean"
+                },
+                "assignmentTitle": {
+                    "description": "The title of the assignment",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "assignmentTitle"
+            ],
+            "type": "object"
+        },
+        "Error": {
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "ExternalContentData": {
+            "properties": {
+                "externalContentID": {
+                    "description": "External Content ID",
+                    "type": "string"
+                },
+                "fileName": {
+                    "description": "The name of the file",
+                    "type": "string"
+                },
+                "uploadContentLength": {
+                    "description": "The content length of the file",
+                    "type": "integer"
+                },
+                "uploadContentType": {
+                    "description": "The content type of the file",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "fileName",
+                "uploadContentType",
+                "uploadContentLength",
+                "externalContentID"
+            ],
+            "type": "object"
+        },
+        "ExternalContentUploadInfo": {
+            "properties": {
+                "contentLength": {
+                    "description": "The length of the file",
+                    "type": "integer"
+                },
+                "contentType": {
+                    "description": "The files content type",
+                    "type": "string"
+                },
+                "externalContentID": {
+                    "description": "ID used to ID the uploaded file",
+                    "type": "string"
+                },
+                "filePath": {
+                    "description": "The file path",
+                    "type": "string"
+                },
+                "urlPost": {
+                    "description": "URL to submit the attachment to",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "ReportMetaData": {
+            "properties": {
+                "assignmentTitle": {
+                    "description": "Title of Assignment",
+                    "type": "string"
+                },
+                "contextTitle": {
+                    "description": "Title of Context",
+                    "type": "string"
+                },
+                "externalContentData": {
+                    "items": {
+                        "$ref": "#/definitions/ExternalContentData"
+                    },
+                    "type": "array"
+                },
+                "userEmail": {
+                    "description": "Users Email",
+                    "type": "string"
+                },
+                "userFirstName": {
+                    "description": "Users First Name",
+                    "type": "string"
+                },
+                "userLastName": {
+                    "description": "Users Last Name",
+                    "type": "string"
+                },
+                "userRole": {
+                    "description": "User Role",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "externalContentData"
+            ],
+            "type": "object"
+        },
+        "ReportScoreReponse": {
+            "properties": {
+                "assignment": {
+                    "type": "string"
+                },
+                "externalContentId": {
+                    "type": "string"
+                },
+                "preliminary": {
+                    "type": "boolean"
+                },
+                "score": {
+                    "type": "integer"
+                },
+                "user": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "ReportURLLinkReponse": {
+            "properties": {
+                "assignmentID": {
+                    "description": "Assignment ID.",
+                    "type": "string"
+                },
+                "contextID": {
+                    "description": "Context ID.",
+                    "type": "string"
+                },
+                "externalContentID": {
+                    "description": "external Content ID",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "The url to retrieve the report",
+                    "type": "string"
+                },
+                "userID": {
+                    "description": "User ID.",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "info": {
+        "title": "VeriCiteLmsApiV1",
+        "version": "1.0.0"
+    },
     "paths": {
-        "/reports/submit/request/{contextID}/{assignmentID}/{userID}": {
-            "post": {
-                "tags": [
-                  "reports"
-                ],
-                "operationId": "submitRequest",
-                "description": "Request a file submission",
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "contextID",
-                        "description": "Context ID",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "in": "path",
-                        "name": "assignmentID",
-                        "description": "ID of assignment",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "in": "path",
-                        "name": "userID",
-                        "description": "ID of user",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "in": "header",
-                        "name": "consumer",
-                        "description": "the consumer",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "in": "header",
-                        "name": "consumerSecret",
-                        "description": "the consumer secret",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "in": "body",
-                        "name": "reportMetaData",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ReportMetaData"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Returns urls to submit assignment to",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ExternalContentUploadInfo"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Error Invalid Input",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "401": {
-                        "description": "Error Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Error Unexpected",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/reports/scores/{contextID}": {
-            "get": {
-                "tags": [
-                  "reports"
-                ],
-                "operationId": "getScores",
-                "description": "Retrieves scores for the reports",
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "contextID",
-                        "description": "Context ID",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "in": "query",
-                        "name": "assignmentID",
-                        "description": "ID of assignment",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "in": "query",
-                        "name": "userID",
-                        "description": "ID of user",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "in": "query",
-                        "name": "externalContentID",
-                        "description": "external content id",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "in": "header",
-                        "name": "consumer",
-                        "description": "the consumer",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "in": "header",
-                        "name": "consumerSecret",
-                        "description": "the consumer secret",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "An array of report score",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ReportScoreReponse"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Error Invalid Input",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "401": {
-                        "description": "Error Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Error Unexpected",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
-        },
         "/assignments/{contextID}/{assignmentID}": {
             "post": {
-                "tags": [
-                  "assignments"
-                ],
-                "operationId": "createUpdateAssignment",
                 "description": "Create/update assignment",
+                "operationId": "createUpdateAssignment",
                 "parameters": [
                     {
+                        "description": "Context ID",
                         "in": "path",
                         "name": "contextID",
-                        "description": "Context ID",
                         "required": true,
                         "type": "string"
                     },
                     {
+                        "description": "ID of assignment",
                         "in": "path",
                         "name": "assignmentID",
-                        "description": "ID of assignment",
                         "required": true,
                         "type": "string"
                     },
                     {
+                        "description": "the consumer",
                         "in": "header",
                         "name": "consumer",
-                        "description": "the consumer",
                         "required": true,
                         "type": "string"
                     },
                     {
+                        "description": "the consumer secret",
                         "in": "header",
                         "name": "consumerSecret",
-                        "description": "the consumer secret",
                         "required": true,
                         "type": "string"
                     },
@@ -232,10 +238,10 @@
                     "200": {
                         "description": "An array of Url Link",
                         "schema": {
-                            "type": "array",
                             "items": {
                                 "$ref": "#/definitions/ExternalContentUploadInfo"
-                            }
+                            },
+                            "type": "array"
                         }
                     },
                     "400": {
@@ -262,70 +268,261 @@
                             "$ref": "#/definitions/Error"
                         }
                     }
-                }
+                },
+                "tags": [
+                    "assignments"
+                ]
+            }
+        },
+        "/reports/scores/{contextID}": {
+            "get": {
+                "description": "Retrieves scores for the reports",
+                "operationId": "getScores",
+                "parameters": [
+                    {
+                        "description": "Context ID",
+                        "in": "path",
+                        "name": "contextID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "ID of assignment",
+                        "in": "query",
+                        "name": "assignmentID",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "ID of user",
+                        "in": "query",
+                        "name": "userID",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "external content id",
+                        "in": "query",
+                        "name": "externalContentID",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "the consumer",
+                        "in": "header",
+                        "name": "consumer",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "the consumer secret",
+                        "in": "header",
+                        "name": "consumerSecret",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of report score",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/ReportScoreReponse"
+                            },
+                            "type": "array"
+                        }
+                    },
+                    "400": {
+                        "description": "Error Invalid Input",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Error Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Error Unexpected",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                },
+                "tags": [
+                    "reports"
+                ]
+            }
+        },
+        "/reports/submit/request/{contextID}/{assignmentID}/{userID}": {
+            "post": {
+                "description": "Request a file submission",
+                "operationId": "submitRequest",
+                "parameters": [
+                    {
+                        "description": "Context ID",
+                        "in": "path",
+                        "name": "contextID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "ID of assignment",
+                        "in": "path",
+                        "name": "assignmentID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "ID of user",
+                        "in": "path",
+                        "name": "userID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Will only run the report for immediate scoring",
+                        "in": "query",
+                        "name": "immediateScoreOnly",
+                        "required": true,
+                        "type": "boolean"
+                    },
+                    {
+                        "description": "the consumer",
+                        "in": "header",
+                        "name": "consumer",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "the consumer secret",
+                        "in": "header",
+                        "name": "consumerSecret",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "reportMetaData",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ReportMetaData"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns urls to submit assignment to",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/ExternalContentUploadInfo"
+                            },
+                            "type": "array"
+                        }
+                    },
+                    "400": {
+                        "description": "Error Invalid Input",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Error Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Error Unexpected",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                },
+                "tags": [
+                    "reports"
+                ]
             }
         },
         "/reports/urls/{contextID}": {
             "get": {
-                "tags": [
-                  "reports"
-                ],
-                "operationId": "getReportUrls",
                 "description": "Retrieves URLS for the reports",
+                "operationId": "getReportUrls",
                 "parameters": [
                     {
+                        "description": "Context ID",
                         "in": "path",
                         "name": "contextID",
-                        "description": "Context ID",
                         "required": true,
                         "type": "string"
                     },
                     {
+                        "description": "ID of assignment to filter results on",
                         "in": "query",
                         "name": "assignmentIDFilter",
-                        "description": "ID of assignment to filter results on",
                         "required": true,
                         "type": "string"
                     },
                     {
+                        "description": "ID of user to filter results on",
                         "in": "query",
                         "name": "userIDFilter",
-                        "description": "ID of user to filter results on",
                         "required": false,
                         "type": "string"
                     },
                     {
+                        "description": "external content id to filter results on",
                         "in": "query",
                         "name": "externalContentIDFilter",
-                        "description": "external content id to filter results on",
                         "required": false,
                         "type": "string"
                     },
                     {
+                        "description": "flag to indicate a request for the print report page URL",
+                        "in": "query",
+                        "name": "printReportPage",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "description": "the consumer",
                         "in": "header",
                         "name": "consumer",
-                        "description": "the consumer",
                         "required": true,
                         "type": "string"
                     },
                     {
+                        "description": "the consumer secret",
                         "in": "header",
                         "name": "consumerSecret",
-                        "description": "the consumer secret",
                         "required": true,
                         "type": "string"
                     },
                     {
+                        "description": "ID of user who will view the report",
                         "in": "query",
                         "name": "tokenUser",
-                        "description": "ID of user who will view the report",
                         "required": true,
                         "type": "string"
                     },
                     {
+                        "description": "role of user who will view the report",
                         "in": "query",
                         "name": "tokenUserRole",
-                        "description": "role of user who will view the report",
                         "required": true,
                         "type": "string"
                     }
@@ -334,10 +531,10 @@
                     "200": {
                         "description": "An array of Url Link",
                         "schema": {
-                            "type": "array",
                             "items": {
                                 "$ref": "#/definitions/ReportURLLinkReponse"
-                            }
+                            },
+                            "type": "array"
                         }
                     },
                     "400": {
@@ -364,195 +561,12 @@
                             "$ref": "#/definitions/Error"
                         }
                     }
-                }
+                },
+                "tags": [
+                    "reports"
+                ]
             }
         }
     },
-    "definitions": {
-        "AssignmentData": {
-            "type": "object",
-            "required": [
-                "assignmentTitle"
-            ],
-            "properties": {
-                "assignmentTitle": {
-                    "type": "string",
-                    "description": "The title of the assignment"
-                },
-                "assignmentInstructions": {
-                    "type": "string",
-                    "description": "Instructions for assignment"
-                },
-                "assignmentExcludeQuotes": {
-                    "type": "boolean",
-                    "description": "exclude quotes"
-                },
-                "assignmentExcludeSelfPlag": {
-                    "type": "boolean",
-                    "description": "exclude self plagiarism"
-                },
-                "assignmentStoreInIndex": {
-                    "type": "boolean",
-                    "description": "store submissions in institutional index"
-                },
-                "assignmentDueDate": {
-                    "type": "integer",
-                    "description": "Assignment due date. Pass in 0 to delete."
-                },
-                "assignmentGrade": {
-                    "type": "integer",
-                    "description": "Assignment grade. Pass in 0 to delete."
-                },
-                "assignmentAttachmentExternalContent": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/ExternalContentData"
-                    }
-                }
-            }
-        },
-        "ExternalContentData": {
-            "type": "object",
-            "required": [
-                "fileName",
-                "uploadContentType",
-                "uploadContentLength",
-                "externalContentID"
-            ],
-            "properties": {
-                "fileName": {
-                    "type": "string",
-                    "description": "The name of the file"
-                },
-                "uploadContentType": {
-                    "type": "string",
-                    "description": "The content type of the file"
-                },
-                "uploadContentLength": {
-                    "type": "integer",
-                    "description": "The content length of the file"
-                },
-                "externalContentID": {
-                    "type": "string",
-                    "description": "External Content ID"
-                }
-            }
-        },
-        "ExternalContentUploadInfo": {
-            "type": "object",
-            "properties": {
-                "externalContentID": {
-                    "type": "string",
-                    "description": "ID used to ID the uploaded file"
-                },
-                "urlPost": {
-                    "type": "string",
-                    "description": "URL to submit the attachment to"
-                },
-                "filePath": {
-                    "type": "string",
-                    "description": "The file path"
-                },
-                "contentLength": {
-                    "type": "integer",
-                    "description": "The length of the file"
-                },
-                "contentType": {
-                    "type": "string",
-                    "description": "The files content type"
-                }
-            }
-        },
-        "ReportMetaData": {
-            "type": "object",
-            "required": [
-                "externalContentData"
-            ],
-            "properties": {
-                "userFirstName": {
-                    "type": "string",
-                    "description": "Users First Name"
-                },
-                "userLastName": {
-                    "type": "string",
-                    "description": "Users Last Name"
-                },
-                "userEmail": {
-                    "type": "string",
-                    "description": "Users Email"
-                },
-                "userRole": {
-                    "type": "string",
-                    "description": "User Role"
-                },
-                "assignmentTitle": {
-                    "type": "string",
-                    "description": "Title of Assignment"
-                },
-                "contextTitle": {
-                    "type": "string",
-                    "description": "Title of Context"
-                },
-                "externalContentData": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/ExternalContentData"
-                    }
-                }
-            }
-        },
-        "ReportScoreReponse": {
-            "type": "object",
-            "properties": {
-                "user": {
-                    "type": "string"
-                },
-                "assignment": {
-                    "type": "string"
-                },
-                "externalContentId": {
-                    "type": "string"
-                },
-                "score": {
-                    "type": "integer"
-                },
-                "preliminary": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "ReportURLLinkReponse": {
-            "type": "object",
-            "properties": {
-                "url": {
-                    "type": "string",
-                    "description": "The url to retrieve the report"
-                },
-                "contextID": {
-                    "type": "string",
-                    "description": "Context ID."
-                },
-                "assignmentID": {
-                    "type": "string",
-                    "description": "Assignment ID."
-                },
-                "userID": {
-                    "type": "string",
-                    "description": "User ID."
-                },
-                "externalContentID": {
-                    "type": "string",
-                    "description": "external Content ID"
-                }
-            }
-        },
-        "Error": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string"
-                }
-            }
-        }
-    }
+    "swagger": "2.0"
 }
