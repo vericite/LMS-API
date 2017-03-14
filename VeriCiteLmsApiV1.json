@@ -13,6 +13,10 @@
                     "description": "Assignment due date. Pass in 0 to delete.",
                     "type": "integer"
                 },
+                "assignmentEnableStudentPreview": {
+                    "description": "set status for enableStudentPreview",
+                    "type": "boolean"
+                },
                 "assignmentExcludeQuotes": {
                     "description": "exclude quotes",
                     "type": "boolean"
