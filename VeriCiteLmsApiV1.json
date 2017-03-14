@@ -165,7 +165,7 @@
             },
             "type": "object"
         },
-        "ReportURLLinkReponse": {
+        "ReportURLLinkResponse": {
             "properties": {
                 "assignmentID": {
                     "description": "Assignment ID.",
@@ -536,7 +536,7 @@
                         "description": "An array of Url Link",
                         "schema": {
                             "items": {
-                                "$ref": "#/definitions/ReportURLLinkReponse"
+                                "$ref": "#/definitions/ReportURLLinkResponse"
                             },
                             "type": "array"
                         }
