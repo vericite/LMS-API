@@ -11,7 +11,8 @@
                 },
                 "assignmentDueDate": {
                     "description": "Assignment due date. Pass in 0 to delete.",
-                    "type": "long"
+                    "type": "integer",
+                    "format": "int64"
                 },
                 "assignmentEnableStudentPreview": {
                     "description": "set status for enableStudentPreview",
