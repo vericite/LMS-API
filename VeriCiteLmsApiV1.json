@@ -11,7 +11,7 @@
                 },
                 "assignmentDueDate": {
                     "description": "Assignment due date. Pass in 0 to delete.",
-                    "type": "integer"
+                    "type": "long"
                 },
                 "assignmentEnableStudentPreview": {
                     "description": "set status for enableStudentPreview",
@@ -149,6 +149,9 @@
             "properties": {
                 "assignment": {
                     "type": "string"
+                },
+                "draft": {
+                    "type": "boolean"
                 },
                 "externalContentId": {
                     "type": "string"
@@ -396,7 +399,7 @@
                         "description": "Will only run the report for immediate scoring",
                         "in": "query",
                         "name": "immediateScoreOnly",
-                        "required": true,
+                        "required": false,
                         "type": "boolean"
                     },
                     {
