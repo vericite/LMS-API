@@ -11,8 +11,8 @@
                 },
                 "assignmentDueDate": {
                     "description": "Assignment due date. Pass in 0 to delete.",
-                    "type": "integer",
-                    "format": "int64"
+                    "format": "int64",
+                    "type": "integer"
                 },
                 "assignmentEnableStudentPreview": {
                     "description": "set status for enableStudentPreview",
@@ -100,6 +100,10 @@
                 "filePath": {
                     "description": "The file path",
                     "type": "string"
+                },
+                "headers": {
+                    "description": "A map of required headers",
+                    "type": "object"
                 },
                 "urlPost": {
                     "description": "URL to submit the attachment to",
@@ -232,6 +236,13 @@
                         "name": "consumerSecret",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "description": "Flag to indicate encryption",
+                        "in": "query",
+                        "name": "encrypted",
+                        "required": false,
+                        "type": "boolean"
                     },
                     {
                         "in": "body",
@@ -400,6 +411,13 @@
                         "description": "Will only run the report for immediate scoring",
                         "in": "query",
                         "name": "immediateScoreOnly",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "description": "Flag to indicate encryption",
+                        "in": "query",
+                        "name": "encrypted",
                         "required": false,
                         "type": "boolean"
                     },
