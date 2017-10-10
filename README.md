@@ -85,6 +85,24 @@ Creates or updates an assignment
   * assignmentData.assignmentAttachmentExternalContent.uploadContentLength (size of the file in bytes)
   * assignmentData.assignmentAttachmentExternalContent.externalContentID (this is your UID for the attachment)
 
+  *Response:*
+  ```javascript
+  [
+      {
+          "urlPost": "https://someurl/147903070164393.reportgen?AWSAccessKeyId=AKIAJBIOQ&Expires=1507669870&Signature=4mH%2BRxLR%2B%2F2tvpqlq4jhoo%3D",
+          "externalContentId": "abc12345",
+          "filePath": "key/2017/10/10/147903070164393.reportgen",
+          "contentLength": 4977,
+          "contentType": ".rtf",
+          "paperId": 147903070173110,
+          "metaDataId": 147903070164393,
+          "headers": {
+              "x-amz-server-side-encryption": "AES256"
+          }
+      }
+  ]
+  ```
+  Response is a list of URLs to send a "PUT" request with the raw file data (or empty if you did not include attachments). Make sure you dynamically set the PUT request headers based on the response headers field and do not add any extra headers (this is for the signature).
 
 *Java example:*  
 [ContentReviewServiceImpl.createAssignment](https://github.com/vericite/contentreview-impl-vericite/blob/88f084abda1a2f0aa573868c8f98b5924f235888/impl/src/java/org/sakaiproject/contentreview/impl/ContentReviewServiceImpl.java#L105)  
@@ -120,6 +138,27 @@ Request a file submission upload URL
   * reportMetaData.externalContentData.fileName (file name without extension)
   * reportMetaData.externalContentData.uploadContentType (file extension, i.e. pdf, txt, rtf, etc.)
   * reportMetaData.externalContentData.uploadContentLength (size of the file in bytes)
+
+*Response:*
+```javascript
+[
+    {
+        "urlPost": "https://someurl/147903070164393.reportgen?AWSAccessKeyId=AKIAJBIOQ&Expires=1507669870&Signature=4mH%2BRxLR%2B%2F2tvpqlq4jhoo%3D",
+        "externalContentId": "abc12345",
+        "filePath": "key/2017/10/10/147903070164393.reportgen",
+        "contentLength": 4977,
+        "contentType": ".rtf",
+        "paperId": 147903070173110,
+        "metaDataId": 147903070164393,
+        "headers": {
+            "x-amz-server-side-encryption": "AES256"
+        }
+    }
+]
+```
+Response is a list of URLs to send a "PUT" request with the raw file data. Make sure you dynamically set the PUT request headers based on the response headers field and do not add any extra headers (this is for the signature).
+
+
 
 *Java example:*  
 [ContentReviewServiceImpl.queue](https://github.com/vericite/contentreview-impl-vericite/blob/88f084abda1a2f0aa573868c8f98b5924f235888/impl/src/java/org/sakaiproject/contentreview/impl/ContentReviewServiceImpl.java#L578)  
