@@ -197,6 +197,17 @@
                 }
             },
             "type": "object"
+        },
+        "Webhook": {
+            "properties": {
+                "event": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
         }
     },
     "info": {
@@ -590,6 +601,199 @@
                 },
                 "tags": [
                     "reports"
+                ]
+            }
+        },
+        "/webhooks": {
+            "delete": {
+                "description": "Delete webhook for event",
+                "operationId": "deleteWebhook",
+                "parameters": [
+                    {
+                        "description": "the consumer",
+                        "in": "header",
+                        "name": "consumer",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "the consumer secret",
+                        "in": "header",
+                        "name": "consumerSecret",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "webhook",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Webhook"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Webhook deleted",
+                        "schema": {
+                            "$ref": "#/definitions/Webhook"
+                        }
+                    },
+                    "400": {
+                        "description": "Error Invalid Inputs",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Error Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Error Unexpected",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                },
+                "tags": [
+                    "webhooks"
+                ]
+            },
+            "get": {
+                "description": "Retrieves webhooks for the consumer",
+                "operationId": "getWebhooks",
+                "parameters": [
+                    {
+                        "description": "the consumer",
+                        "in": "header",
+                        "name": "consumer",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "the consumer secret",
+                        "in": "header",
+                        "name": "consumerSecret",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "optional event filter",
+                        "in": "query",
+                        "name": "event",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of webhooks",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Webhook"
+                            },
+                            "type": "array"
+                        }
+                    },
+                    "400": {
+                        "description": "Error Invalid Input",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Error Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Error Unexpected",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                },
+                "tags": [
+                    "webhooks"
+                ]
+            },
+            "post": {
+                "description": "Create/update webhook for event",
+                "operationId": "createWebhook",
+                "parameters": [
+                    {
+                        "description": "the consumer",
+                        "in": "header",
+                        "name": "consumer",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "description": "the consumer secret",
+                        "in": "header",
+                        "name": "consumerSecret",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "webhook",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Webhook"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Webhook added",
+                        "schema": {
+                            "$ref": "#/definitions/Webhook"
+                        }
+                    },
+                    "400": {
+                        "description": "Error Invalid Inputs",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Error Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Error Unexpected",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                },
+                "tags": [
+                    "webhooks"
                 ]
             }
         }

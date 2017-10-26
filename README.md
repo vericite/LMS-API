@@ -1,6 +1,6 @@
 # VeriCite LMS API documentation
 
-This document will walk through the Sakai LMS integration with VeriCite to explain the steps required to integrate an LMS with VeriCite internally. You should follow along with the project: [Sakai LMS Integration](https://github.com/vericite/contentreview-impl-vericite) If you are not comfortable with Java, there is a Moodle LMS integration written in php that follows the same guidelines: [Moodle LMS Integration](https://github.com/vericite/moodle-plagiarism_vericite).
+This document will walk through the Sakai LMS integration with VeriCite to explain the steps required to integrate an LMS with VeriCite internally. You should follow along with the project: [Sakai LMS Integration](https://github.com/vericite/contentreview-impl-vericite) If you are not comfortable with Java, there is a Moodle LMS integration written in php that follows the same guidelines: [Moodle LMS Integration](https://github.com/vericite/moodle-plagiarism_vericite). We have also provided a [Postman](https://www.getpostman.com/apps) export for all available endpoints in our API: [VeriCite-LMS_API.postman_collection.json](https://github.com/vericite/LMS-API/blob/master/VeriCite-LMS_API.postman_collection.json)
 
 ## Best practices:
   * If the user doesn’t need to wait for a confirmation, do the work in a non-user thread so that they are not blocked (e.g. loading) until the VeriCite call is complete.
@@ -52,7 +52,7 @@ For all other languages, please put in a request and we will respond. We have al
 
 ## Sample Integration Walkthrough
 
-You should follow along with our Java example project: [Sakai LMS Integration](https://github.com/vericite/contentreview-impl-vericite) or our PHP example project: [Moodle LMS Integration](https://github.com/vericite/moodle-plagiarism_vericite). We also suggest plugging in our [VeriCite LMS Swagger Definition](https://github.com/vericite/LMS-API/blob/master/VeriCiteLmsApiV1.json) into the [Swagger Editor](http://editor.swagger.io/#/) to see an interactive display of our API.
+You should follow along with our Java example project: [Sakai LMS Integration](https://github.com/vericite/contentreview-impl-vericite) or our PHP example project: [Moodle LMS Integration](https://github.com/vericite/moodle-plagiarism_vericite). We also suggest plugging in our [VeriCite LMS Swagger Definition](https://github.com/vericite/LMS-API/blob/master/VeriCiteLmsApiV1.json) into the [Swagger Editor](http://editor.swagger.io/#/) to see an interactive display of our API. We have also provided a [Postman](https://www.getpostman.com/apps) export for all available endpoints in our API: [VeriCite-LMS_API.postman_collection.json](https://github.com/vericite/LMS-API/blob/master/VeriCite-LMS_API.postman_collection.json)
 
 ### Step 1: Assignment is Created or Updated:
 
@@ -170,6 +170,8 @@ Response is a list of URLs to send a "PUT" request with the raw file data. Make 
 
 Do this in bulk when possible. For Learners, you’ll probably request scores for one assignment and one user (e.g. the Learner) at a time and this is ok. However, for instructors, you’ll want to request scores for all users in an assignment. You can then cache/store these scores for 30 minutes. Do not store the scores for any longer of a period of time since VeriCite scores are dynamic and can change. *IMPORTANT*: If a score isn’t returned for a submission, then this means that VeriCite can’t find the submission. Simply re-queue the report for the missing attachment (described in Step 2). Remember to pass all parameters in encoded.
 
+Alternatively, you can register a `report_score_changed` event webhook to be notified of any score changes to a report. Read more about our webhooks below.
+
 #### reports.getScores
 
 GET /reports/scores/{contextID}  
@@ -216,6 +218,132 @@ Retrieves URLS for the reports
 [ContentReviewServiceImpl.getAccessUrl](https://github.com/vericite/contentreview-impl-vericite/blob/88f084abda1a2f0aa573868c8f98b5924f235888/impl/src/java/org/sakaiproject/contentreview/impl/ContentReviewServiceImpl.java#L303)  
 *Php example:*  
 [lib.php PLAGIARISM_VERICITE_ACTION_REPORTS_URLS](https://github.com/vericite/moodle-plagiarism_vericite/blob/master/lib.php)  
+
+## Webhooks
+
+VeriCite webhooks allows you to register your own API endpoints to be called by VeriCite on specific events. For example, instead of requesting the scores from VeriCite, you can register for the `report_score_changed` event. This will notify your API with any changes to any report for each registered consumer.
+
+The first step for using webhooks is to register your API endpoint to a specific event. This should be done at the same time a consumer's key and secret are configured. For example, each consumer should have a unique key and secret associated to them in your implementation. When you save this data, you should:
+  * Get a list of all webhooks associated with this consumer.
+  * Go through each webhook and decide whether to keep or delete it.
+  * For any missing webhooks, make a `webhooks.createWebhook` call to register it for that consumer.
+
+### Register a Webhook
+
+#### webhooks.createWebhook
+
+POST /webhooks
+Registers a webhook for a specific client, event and URL.
+
+*Authorization Headers:*
+  * consumer
+  * consumerSecret
+
+*Parameters:*
+  * webhook (body json parameter)
+  example:
+  ```javascript
+  {
+    "event": "report_score_changed",
+    "url": "https://mydomain/webhooks/event"
+  }
+  ```
+*Response:*
+If successful, the response will be the newly registered webhook.
+  ```javascript
+  {
+    "event": "report_score_changed",
+    "url": "https://mydomain/webhooks/event"
+  }
+  ```
+
+
+### List Webhooks
+
+#### webhooks.getWebhooks
+
+GET /webhooks
+Retrieves webhooks for the consumer.
+
+*Authorization Headers:*
+  * consumer
+  * consumerSecret
+
+*Parameters:*
+  * event (optional query parameter to filter results by event)
+
+*Response:*
+If successful, the response will be a list of all registered webhooks:
+  ```javascript
+  [
+    {
+      "event": "report_score_changed",
+      "url": "https://mydomain/webhooks/event"
+    }
+  ]
+  ```
+
+
+### Delete Webhook
+
+#### webhooks.deleteWebhook
+
+DELETE /webhooks
+Delete webhook for event and URL.
+
+*Authorization Headers:*
+  * consumer
+  * consumerSecret
+
+*Parameters:*
+  * webhook (body json parameter)
+  example:
+  ```javascript
+  {
+    "event": "report_score_changed",
+    "url": "https://mydomain/webhooks/event"
+  }
+  ```
+*Response:*
+If successful, the response will be the deleted webhook.
+  ```javascript
+  {
+    "event": "report_score_changed",
+    "url": "https://mydomain/webhooks/event"
+  }
+  ```
+
+### Webhook Events
+
+All webhooks events will follow the same pattern:
+  * OAuth1 POST event message will be signed with the consumer's key and secret
+  * `event` is the registered event type
+  * `consumer` it the registered consumer for this event.
+  * `payload` consist of a list of results. This list will be unique to each event.
+
+
+#### report_score_changed
+
+This event will be triggered when a report score has been updated. This includes the report score, draft status and preliminary status. It will send an OAuth1 POST message signed with the consumer's key and secret. The message is a list of report score data similar to `reports.getScores`.
+
+*Payload:*
+```javascript
+  {
+    "payload": [
+        {
+            "user": "23asdfsadf",
+            "assignment": "06561f2e-8ff1-4aa0-a501-58e892ae5ec4",
+            "externalContentId": "149108935274859",
+            "score": 0,
+            "preliminary": true,
+            "draft": false
+        }
+    ],
+    "event": "report_score_changed",
+    "consumer": "example"
+  }
+```
+
 
 
 ## Summary overview:

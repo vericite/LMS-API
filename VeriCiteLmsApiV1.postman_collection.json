@@ -1,0 +1,335 @@
+{
+	"variables": [],
+	"info": {
+		"name": "VeriCite - LMS API",
+		"_postman_id": "76476502-bc74-906e-0ff5-aebd12358f15",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "VeriCite - submit request",
+			"request": {
+				"url": {
+					"raw": "https://api.vericite.com/lms/v1/reports/submit/request/2/24/4?encrypted=true",
+					"protocol": "https",
+					"host": [
+						"api",
+						"vericite",
+						"com"
+					],
+					"path": [
+						"lms",
+						"v1",
+						"reports",
+						"submit",
+						"request",
+						"2",
+						"24",
+						"4"
+					],
+					"query": [
+						{
+							"key": "encrypted",
+							"value": "true",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "consumer",
+						"value": "example",
+						"description": ""
+					},
+					{
+						"key": "consumerSecret",
+						"value": "example",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\t\"assignmentTitle\": \"assignmentTitle\",\n\t\t\"contextTitle\": \"contextTitle\",\n\t\t\"userEmail\": \"userEmail\",\n\t\t\"userFirstName\": \"userFirstName\",\n\t\t\"userLastName\": \"userLastName\",\n\t\t\"userRole\": \"Student\",\n\t\t\"externalContentData\": [\n\t\t\t\t{\n\t\t\t\t\t\"externalContentID\": \"/consumerKey/courseid/assignmentid/userid/fileid\",\n\t\t\t\t\t\"fileName\": \"filename\",\n\t\t\t\t\t\"uploadContentLength\": 4977,\n\t\t\t\t\t\"uploadContentType\": \".rtf\"\n\t\t\t\t}\n\t\t\t]\n\t}\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "VeriCite - submission upload",
+			"request": {
+				"url": {
+					"raw": "https://vericite-us-east-1-prd.s3.amazonaws.com/abc/2027/10/12/148066264528570.reportgen?AWSAccessKeyId=12345654321&Expires=1507833064&Signature=12345654321",
+					"protocol": "https",
+					"host": [
+						"vericite-us-east-1-prd",
+						"s3",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"abc",
+						"2027",
+						"10",
+						"12",
+						"148066264528570.reportgen"
+					],
+					"query": [
+						{
+							"key": "AWSAccessKeyId",
+							"value": "12345654321",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "Expires",
+							"value": "1507833064",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "Signature",
+							"value": "12345654321",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-amz-server-side-encryption",
+						"value": "AES256",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "file",
+					"file": {
+						"src": ""
+					}
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "VeriCite - get scores",
+			"request": {
+				"url": {
+					"raw": "https://api.vericite.com/lms/v1/reports/scores/2?assignmentID=24",
+					"protocol": "https",
+					"host": [
+						"api",
+						"vericite",
+						"com"
+					],
+					"path": [
+						"lms",
+						"v1",
+						"reports",
+						"scores",
+						"2"
+					],
+					"query": [
+						{
+							"key": "assignmentID",
+							"value": "24",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "consumer",
+						"value": "example",
+						"description": ""
+					},
+					{
+						"key": "consumerSecret",
+						"value": "example",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "VeriCite - get urls",
+			"request": {
+				"url": {
+					"raw": "https://api.vericite.com/lms/v1/reports/urls/2?assignmentIDFilter=24&tokenUser=4&tokenUserRole=Learner",
+					"protocol": "https",
+					"host": [
+						"api",
+						"vericite",
+						"com"
+					],
+					"path": [
+						"lms",
+						"v1",
+						"reports",
+						"urls",
+						"2"
+					],
+					"query": [
+						{
+							"key": "assignmentIDFilter",
+							"value": "24",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "tokenUser",
+							"value": "4",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "tokenUserRole",
+							"value": "Learner",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "consumer",
+						"value": "example",
+						"description": ""
+					},
+					{
+						"key": "consumerSecret",
+						"value": "example",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "VeriCite - create webhook",
+			"request": {
+				"url": "https://api.vericite.com/lms/v1/webhooks",
+				"method": "POST",
+				"header": [
+					{
+						"key": "consumer",
+						"value": "example",
+						"description": ""
+					},
+					{
+						"key": "consumerSecret",
+						"value": "example",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"event\": \"report_score_changed\",\n    \"url\": \"https://mydomain/webhooks/event\"\n }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "VeriCite - get webhooks",
+			"request": {
+				"url": {
+					"raw": "https://api.vericite.com/lms/v1/webhooks?event=report_score_changed",
+					"protocol": "https",
+					"host": [
+						"api",
+						"vericite",
+						"com"
+					],
+					"path": [
+						"lms",
+						"v1",
+						"webhooks"
+					],
+					"query": [
+						{
+							"key": "event",
+							"value": "report_score_changed",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "consumer",
+						"value": "example",
+						"description": ""
+					},
+					{
+						"key": "consumerSecret",
+						"value": "example",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "VeriCite - delete webhook",
+			"request": {
+				"url": "https://api.vericite.com/lms/v1/webhooks",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "consumer",
+						"value": "example",
+						"description": ""
+					},
+					{
+						"key": "consumerSecret",
+						"value": "example",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"event\": \"report_score_changed\",\n        \"url\": \"https://mydomain/webhooks/event\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
