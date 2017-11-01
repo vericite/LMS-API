@@ -170,7 +170,7 @@ Response is a list of URLs to send a "PUT" request with the raw file data. Make 
 
 Do this in bulk when possible. For Learners, you’ll probably request scores for one assignment and one user (e.g. the Learner) at a time and this is ok. However, for instructors, you’ll want to request scores for all users in an assignment. You can then cache/store these scores for 30 minutes. Do not store the scores for any longer of a period of time since VeriCite scores are dynamic and can change. *IMPORTANT*: If a score isn’t returned for a submission, then this means that VeriCite can’t find the submission. Simply re-queue the report for the missing attachment (described in Step 2). Remember to pass all parameters in encoded.
 
-Alternatively, you can register a `report_score_changed` event webhook to be notified of any score changes to a report. Read more about our webhooks below.
+**TIP:** You can register a `report_score_changed` event webhook to be notified of any score changes to a report. Read more about our webhooks below. For instance, you can use a combination of `report_score_changed` webhook and `reports.getScores` API call in your integration. If your paper is more than one day old and no score has been updated via the Webhook, then you can call our API and see if we have a score for it. If not, then you should retry the submission automatically.
 
 #### reports.getScores
 
