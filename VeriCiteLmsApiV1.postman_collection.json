@@ -220,6 +220,21 @@
 						"key": "consumerSecret",
 						"value": "example",
 						"description": ""
+					},
+					{
+						"key": "tokenUserFirstName",
+						"value": "Bryan",
+						"description": ""
+					},
+					{
+						"key": "tokenUserLastName",
+						"value": "Sample",
+						"description": ""
+					},
+					{
+						"key": "tokenUserEmail",
+						"value": "bsample@abc123.com",
+						"description": ""
 					}
 				],
 				"body": {},

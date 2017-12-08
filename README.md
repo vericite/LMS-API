@@ -213,6 +213,9 @@ Retrieves URLS for the reports
   * externalContentIDFilter (query; find exact report by externalContentID)
   * tokenUser (ID of user who will view the report)
   * tokenUserRole (role of user who will view the report)
+  * tokenUserFirstName (optional first name of user who will view the report)
+  * tokenUserLastName (optional last name of user who will view the report)
+  * tokenUserEmail (optional email of user who will view the report)
 
 *Java example:*  
 [ContentReviewServiceImpl.getAccessUrl](https://github.com/vericite/contentreview-impl-vericite/blob/88f084abda1a2f0aa573868c8f98b5924f235888/impl/src/java/org/sakaiproject/contentreview/impl/ContentReviewServiceImpl.java#L303)  

@@ -550,6 +550,27 @@
                         "type": "string"
                     },
                     {
+                        "description": "First name of user who will view the report",
+                        "in": "header",
+                        "name": "tokenUserFirstName",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "last name of user who will view the report",
+                        "in": "header",
+                        "name": "tokenUserLastName",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "email of user who will view the report",
+                        "in": "header",
+                        "name": "tokenUserEmail",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
                         "description": "ID of user who will view the report",
                         "in": "query",
                         "name": "tokenUser",
