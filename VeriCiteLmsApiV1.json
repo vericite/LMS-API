@@ -433,6 +433,20 @@
                         "type": "boolean"
                     },
                     {
+                        "description": "Flag to indicate the requesting system type: sakai, canvas, moodle, brightspace, etc",
+                        "in": "query",
+                        "name": "productFamilyCode",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Flag to indicate the requesting tool type: assignment, quiz, forum",
+                        "in": "query",
+                        "name": "productToolCode",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
                         "description": "the consumer",
                         "in": "header",
                         "name": "consumer",

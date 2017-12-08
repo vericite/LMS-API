@@ -34,6 +34,18 @@
 							"value": "true",
 							"equals": true,
 							"description": ""
+						},
+						{
+							"key": "productFamilyCode",
+							"value": "sakai",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "productToolCode",
+							"value": "assignment",
+							"equals": true,
+							"description": ""
 						}
 					],
 					"variable": []

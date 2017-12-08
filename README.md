@@ -127,6 +127,8 @@ Request a file submission upload URL
   * assignmentID (from URL; this is the assignment id)
   * userID (from URL; this is the user id)
   * encrypted (always set to true, this was used as a migration flag and will go away)
+  * productFamilyCode (Flag to indicate the requesting system type: sakai, canvas, moodle, brightspace, etc)
+  * productToolCode (Flag to indicate the requesting tool type: assignment, quiz, forum)
   * reportMetaData (from body as json. Only required fields in this object externalContentData: A minimum of one request with externalContentID, fileName and uploadContentLength set. Please provide all parameters if possible)
   * reportMetaData.userFirstName
   * reportMetaData.userLastName
