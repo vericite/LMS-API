@@ -167,6 +167,9 @@
                 "score": {
                     "type": "integer"
                 },
+                "uploaded": {
+                    "type": "boolean"
+                },
                 "user": {
                     "type": "string"
                 }
@@ -334,6 +337,13 @@
                         "description": "external content id",
                         "in": "query",
                         "name": "externalContentID",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "comma separated options: uploadStatus",
+                        "in": "query",
+                        "name": "include",
                         "required": false,
                         "type": "string"
                     },

@@ -188,6 +188,7 @@ Retrieves scores for the reports
   * assignmentID (query; filter by assignment id)
   * userID (query; filter by user id)
   * externalContentID (query; find exact report by externalContentID)
+  * include (query: optional comma separated list of options to add to the response: uploadStatus)
 
 *Java example:*  
 [ContentReviewServiceImpl.getReviewScore](https://github.com/vericite/contentreview-impl-vericite/blob/88f084abda1a2f0aa573868c8f98b5924f235888/impl/src/java/org/sakaiproject/contentreview/impl/ContentReviewServiceImpl.java#L406)  
